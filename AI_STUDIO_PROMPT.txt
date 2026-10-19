@@ -1,0 +1,39 @@
+Build a complete, production-ready Android TV web browser app called "Nexus Browser" using Kotlin and Jetpack Compose for TV.
+
+CRITICAL REQUIREMENTS:
+- Fully functional on Android TV / Google TV, especially the 2024 Onn 4K Pro (Amlogic S905X4, 3 GB RAM, Android 14, 32-bit userspace). Declare leanback, no required touchscreen, TV banner, etc.
+- MUST support armeabi-v7a (ARMv7 / 32-bit) as primary ABI. Prefer multi-ABI (armeabi-v7a + arm64-v8a) via App Bundle/splits for future devices.
+- Perfect remote control / D-pad experience: spatial navigation, clear focus indicators with scale/zoom, media keys, long-press actions, voice search integration. Use androidx.tv:tv-material and tv-foundation.
+- Match Material 3 Expressive design language as closely as possible on Android 12–14 hardware: springy animations (keep light for performance), bold/dynamic colors, high-contrast typography, modern shapes. Full light mode and dark mode (plus system-follow and optional dynamic color). Do not rely on Android 16/17-only system effects.
+- Competitive video player: detect HTML5 / <video> / common streaming URLs and hand off to Media3 ExoPlayer with MediaSession for system media controls, seek, play/pause, subtitles support, and good remote UX. Prefer seamless position continuity when possible.
+- Strong ad blocking: EasyList + AdGuard-style filter lists (network + cosmetic), on by default, per-site allowlist, easy toggle, background list updates.
+- Everything needed for a usable TV browser: address bar, tabs (memory-conscious limit because of 3 GB RAM), bookmarks, history, downloads stub, settings, search engines, user-agent switcher (mobile/desktop/TV), clear data.
+
+TECH STACK:
+- Kotlin, Jetpack Compose, androidx.tv:tv-material + tv-foundation
+- Material 3 theming (light/dark + dynamic where available)
+- System WebView + custom WebViewClient for interception/adblock
+- Media3 / ExoPlayer + MediaSession for video
+- Navigation Compose, ViewModel, Room or DataStore
+- Target SDK 35, min SDK 24
+- ABI: armeabi-v7a + arm64-v8a
+
+ARCHITECTURE:
+- Single Activity, Compose-first
+- Clean modular structure (ui, browser, adblock, player, data, settings)
+- Optimize heavily for 3 GB RAM devices: limited concurrent tabs, WebView recycling, hardware acceleration, avoid memory leaks, light animations
+
+PERFORMANCE CONSTRAINTS (Onn 4K Pro):
+- 3 GB RAM → strict tab limits, careful WebView lifecycle
+- Mali-G31 → avoid heavy continuous blur or particle effects
+- 32-bit → no pure arm64-only native libraries
+
+DELIVERABLES:
+- Complete Gradle project that builds and runs
+- AndroidManifest with full TV declarations
+- Home/start screen, browser screen, video player screen, settings
+- Working ad blocking foundation and ExoPlayer path
+- Light/dark theme switcher
+- README with build instructions, sideload notes for Onn 4K Pro, and how to iterate
+
+Start from the existing scaffold if present, then expand the ad blocker with real filter lists, improve video detection/handoff, add MediaSession, bookmarks/history, and polish remote focus handling. Make the remote experience feel native and premium while staying stable on budget Android TV hardware.
